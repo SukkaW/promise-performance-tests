@@ -4,25 +4,15 @@
   "description": "Promise performance tests",
   "main": "run.js",
   "scripts": {
+    "lint": "eslint lib/*.js run.js webpack.config.js --fix",
     "build:doxbee-async-babel": "babel -o build/doxbee-async-babel.js --presets=@babel/preset-env lib/doxbee-async.js",
     "build:fibonacci-async-babel": "babel -o build/fibonacci-async-babel.js --plugins @babel/plugin-proposal-async-generator-functions --presets=@babel/preset-env lib/fibonacci-async.js",
     "build:measure-async-babel": "babel -o build/measure-async-babel.js --presets=@babel/preset-env lib/measure-async.js",
     "build:parallel-async-babel": "babel -o build/parallel-async-babel.js --presets=@babel/preset-env lib/parallel-async.js",
     "build": "npm run build:doxbee-async-babel && npm run build:fibonacci-async-babel && npm run build:measure-async-babel && npm run build:parallel-async-babel && webpack",
     "postinstall": "npm run build",
-    "precommit": "lint-staged",
     "start": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "lint-staged": {
-    "lib/*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "webpack.config.js": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "author": {
     "name": "Benedikt Meurer",
@@ -39,9 +29,10 @@
     "@babel/cli": "^7.14.5",
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
-    "lint-staged": "^7.0.0",
-    "prettier": "^1.10.2",
-    "webpack": "^4.20.2",
+    "eslint": "^7.28.0",
+    "eslint-config-sukka": "^1.1.2",
+    "eslint-plugin-node": "^11.1.0",
+    "webpack": "^4.46.0",
     "webpack-cli": "^3.1.1"
   }
 }

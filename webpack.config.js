@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const fs = require("fs");
-const path = require("path");
-const webpack = require("webpack");
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = fs
-  .readdirSync("benchmark")
-  .filter(filename => filename.endsWith(".js"))
+  .readdirSync('benchmark')
+  .filter(filename => filename.endsWith('.js'))
   .map(filename => ({
-    context: path.resolve("benchmark"),
+    context: path.resolve('benchmark'),
     entry: `./${filename}`,
     output: {
       filename,
-      path: path.resolve("dist")
+      path: path.resolve('dist')
     },
     optimization: {
       minimize: false
@@ -32,10 +32,10 @@ module.exports = fs
     plugins: [
       new webpack.BannerPlugin({
         banner:
-          "// Required for JavaScript engine shells.\n" +
-          "if (typeof console === 'undefined') {\n" +
-          "  console = {log: print};\n" +
-          "}",
+          '// Required for JavaScript engine shells.\n'
+          + 'if (typeof console === \'undefined\') {\n'
+          + '  console = {log: print};\n'
+          + '}',
         raw: true
       })
     ]
