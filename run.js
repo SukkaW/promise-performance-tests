@@ -12,7 +12,10 @@ const listDir = require('@sukka/listdir');
   try {
     for (const benchmark of BENCHMARKS) {
       const p = cp.spawnSync(process.execPath, [benchmark]);
-      console.log(p.stdout.toString().trim());
+      const stdout = p.stdout.toString().trim();
+      const stderr = p.stderr.toString().trim();
+      if (stdout !== '') console.log(stdout);
+      if (stderr !== '') console.error(stderr);
     }
   } catch (err) {
     console.error(err);
