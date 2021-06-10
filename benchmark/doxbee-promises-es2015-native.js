@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+const path = require('path');
+const doxbee = require('../lib/doxbee-promises.js');
+const measure = require('../lib/measure-promises.js');
 
-const doxbee = require("../lib/doxbee-promises.js");
-const measure = require("../lib/measure-promises.js");
-
-measure(doxbee, "b", "c")
-  .then(time => console.log(`Time(doxbee-promises-es2015-native): ${time} ms.`))
+measure(doxbee, 'b', 'c')
+  .then(({ time, mem }) => console.log(`${path.basename(__filename, '.js')}: ${time} ms ${mem} MiB`))
   .catch(reason => console.error(reason));

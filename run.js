@@ -6,8 +6,8 @@ const listDir = require('@sukka/listdir');
 
   const BENCHMARKS = (await listDir('benchmark'))
     .filter(filename => filename.endsWith('.js'))
-    .map(filename => `./benchmark/${filename}`);
-  BENCHMARKS.sort();
+    .map(filename => `./benchmark/${filename}`)
+    .sort();
 
   try {
     for (const benchmark of BENCHMARKS) {

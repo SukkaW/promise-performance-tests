@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+const path = require('path');
+require('regenerator-runtime/runtime');
 
-require("regenerator-runtime/runtime");
-
-const doxbee = require("../build/doxbee-async-babel.js");
-const measure = require("../build/measure-async-babel.js");
+const doxbee = require('../build/doxbee-async-babel.js');
+const measure = require('../build/measure-async-babel.js');
 
 (async () => {
   try {
-    const time = await measure(doxbee, "b", "c");
-    console.log(`Time(doxbee-async-es2017-babel): ${time} ms.`);
+    const { time, mem } = await measure(doxbee, 'b', 'c');
+    console.log(`${path.basename(__filename)}: ${time} ms ${mem} MiB`);
   } catch (err) {
     console.error(err);
   }

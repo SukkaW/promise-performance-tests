@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+const path = require('path');
+Promise = require('bluebird');
 
-Promise = require("bluebird");
-
-const doxbee = require("../lib/doxbee-async.js");
-const measure = require("../lib/measure-async.js");
+const doxbee = require('../lib/doxbee-async.js');
+const measure = require('../lib/measure-async.js');
 
 (async () => {
   try {
-    const time = await measure(doxbee, "b", "c");
-    console.log(`Time(doxbee-async-bluebird): ${time} ms.`);
+    const { time, mem } = await measure(doxbee, 'b', 'c');
+    console.log(`${path.basename(__filename)}: ${time} ms ${mem} MiB`);
   } catch (err) {
     console.error(err);
   }

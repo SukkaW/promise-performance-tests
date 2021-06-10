@@ -4,7 +4,7 @@
   "description": "Promise performance tests",
   "main": "run.js",
   "scripts": {
-    "lint": "eslint lib/*.js run.js webpack.config.js --fix",
+    "lint": "eslint lib/*.js benchmark/*.js run.js webpack.config.js --fix",
     "build:doxbee-async-babel": "babel -o build/doxbee-async-babel.js --presets=@babel/preset-env lib/doxbee-async.js",
     "build:fibonacci-async-babel": "babel -o build/fibonacci-async-babel.js --plugins @babel/plugin-proposal-async-generator-functions --presets=@babel/preset-env lib/fibonacci-async.js",
     "build:measure-async-babel": "babel -o build/measure-async-babel.js --presets=@babel/preset-env lib/measure-async.js",

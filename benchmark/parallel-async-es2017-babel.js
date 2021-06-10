@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+const path = require('path');
+require('regenerator-runtime/runtime');
 
-require("regenerator-runtime/runtime");
-
-const parallel = require("../build/parallel-async-babel.js");
-const measure = require("../build/measure-async-babel.js");
+const parallel = require('../build/parallel-async-babel.js');
+const measure = require('../build/measure-async-babel.js');
 
 (async () => {
   try {
-    const time = await measure(parallel, "b", "c");
-    console.log(`Time(parallel-async-es2017-babel): ${time} ms.`);
+    const { time, mem } = await measure(parallel, 'b', 'c');
+    console.log(`${path.basename(__filename)}: ${time} ms ${mem} MiB`);
   } catch (err) {
     console.error(err);
   }

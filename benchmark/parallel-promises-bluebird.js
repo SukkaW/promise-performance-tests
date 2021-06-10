@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-"use strict";
+const path = require('path');
+Promise = require('bluebird');
 
-Promise = require("bluebird");
+const parallel = require('../lib/parallel-promises.js');
+const measure = require('../lib/measure-promises.js');
 
-const parallel = require("../lib/parallel-promises.js");
-const measure = require("../lib/measure-promises.js");
-
-measure(parallel, "b", "c")
-  .then(time => {
-    console.log(`Time(parallel-promises-bluebird): ${time} ms.`);
+measure(parallel, 'b', 'c')
+  .then(({ time, mem }) => {
+    console.log(`${path.basename(__filename)}: ${time} ms ${mem} MiB`);
   })
   .catch(reason => console.error(reason));
