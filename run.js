@@ -8,10 +8,10 @@ const listDir = require('@sukka/listdir');
     .filter(filename => filename.endsWith('.js'))
     .map(filename => `./benchmark/${filename}`);
   BENCHMARKS.sort();
-  
+
   try {
     for (const benchmark of BENCHMARKS) {
-      const p = cp.spawnSync(process.execPath, [ benchmark ]);
+      const p = cp.spawnSync(process.execPath, [benchmark]);
       console.log(p.stdout.toString().trim());
     }
   } catch (err) {

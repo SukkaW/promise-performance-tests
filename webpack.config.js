@@ -17,10 +17,10 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = fs
-  .readdirSync("src")
+  .readdirSync("benchmark")
   .filter(filename => filename.endsWith(".js"))
   .map(filename => ({
-    context: path.resolve("src"),
+    context: path.resolve("benchmark"),
     entry: `./${filename}`,
     output: {
       filename,
