@@ -23,6 +23,10 @@
   "dependencies": {
     "@sukka/listdir": "^0.2.0",
     "bluebird": "^3.5.1",
+    "core-js-pure": "^3.14.0",
+    "es6-promise": "^4.2.8",
+    "promise": "^8.1.0",
+    "promise-polyfill": "^8.2.0",
     "regenerator-runtime": "^0.11.1"
   },
   "devDependencies": {
