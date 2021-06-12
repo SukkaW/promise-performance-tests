@@ -38,5 +38,9 @@ module.exports = fs
           + '}',
         raw: true
       })
-    ]
+    ],
+    resolve: {
+      fallback: { 'path': false }
+    },
+    mode: 'production'
   }));
