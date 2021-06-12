@@ -1,5 +1,5 @@
 const path = require('path');
-Promise = require('promise-polyfill').default;
+Promise = require('promise-polyfill');
 
 const parallel = require('../lib/parallel-promises.js');
 const measure = require('../lib/measure-promises.js');
