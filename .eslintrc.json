@@ -6,6 +6,8 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-console":"off"
+    "no-console":"off",
+    "no-global-assign": "off",
+    "class-methods-use-this": "off"
   }
 }
