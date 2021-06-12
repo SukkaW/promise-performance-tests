@@ -15,7 +15,7 @@ const listDir = require('@sukka/listdir');
       const stdout = p.stdout.toString().trim();
       const stderr = p.stderr.toString().trim();
       if (stdout !== '') console.log(stdout);
-      if (stderr !== '') console.error(stderr);
+      if (stderr !== '') console.error(`[${benchmark}]`, stderr);
     }
   } catch (err) {
     console.error(err);
