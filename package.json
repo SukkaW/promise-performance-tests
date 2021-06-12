@@ -5,11 +5,15 @@
   "main": "run.js",
   "scripts": {
     "lint": "eslint lib/*.js benchmark/*.js run.js webpack.config.js --fix",
+    "build:doxbee-async-tsc": "tsc lib/doxbee-async.js --allowJs --outFile build/doxbee-async-tsc.js",
     "build:doxbee-async-babel": "babel -o build/doxbee-async-babel.js --presets=@babel/preset-env lib/doxbee-async.js",
+    "build:fibonacci-async-tsc": "tsc lib/fibonacci-async.js --allowJs --outFile build/fibonacci-async-tsc.js",
     "build:fibonacci-async-babel": "babel -o build/fibonacci-async-babel.js --plugins @babel/plugin-proposal-async-generator-functions --presets=@babel/preset-env lib/fibonacci-async.js",
+    "build:measure-async-tsc": "tsc lib/measure-async.js --allowJs --outFile build/measure-async-tsc.js",
     "build:measure-async-babel": "babel -o build/measure-async-babel.js --presets=@babel/preset-env lib/measure-async.js",
+    "build:parallel-async-tsc": "tsc lib/parallel-async.js --allowJs --outFile build/parallel-async-tsc.js",
     "build:parallel-async-babel": "babel -o build/parallel-async-babel.js --presets=@babel/preset-env lib/parallel-async.js",
-    "build": "npm run build:doxbee-async-babel && npm run build:fibonacci-async-babel && npm run build:measure-async-babel && npm run build:parallel-async-babel && webpack",
+    "build": "npm run build:doxbee-async-tsc && npm run build:doxbee-async-babel && npm run build:fibonacci-async-tsc && npm run build:fibonacci-async-babel && npm run build:measure-async-tsc && npm run build:measure-async-babel && npm run build:parallel-async-tsc && npm run build:parallel-async-babel && webpack",
     "postinstall": "npm run build",
     "start": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -36,6 +40,7 @@
     "eslint": "^7.28.0",
     "eslint-config-sukka": "^1.1.2",
     "eslint-plugin-node": "^11.1.0",
+    "typescript": "^4.3.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.1.1"
   }
