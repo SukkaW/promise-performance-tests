@@ -17,7 +17,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-var driver = require('../lib/driver.js');
+var _require = require('../lib/driver.js'),
+    driver = _require.driver;
 
 var config = require('../lib/config.js');
 

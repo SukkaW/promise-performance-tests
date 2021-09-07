@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const path = require('path');
 Promise = require('bluebird');
 
 const doxbee = require('../lib/doxbee-promises.js');
 const measure = require('../lib/measure-promises.js');
 
 measure(doxbee, 'b', 'c')
-  .then(({ time, mem }) => console.log(`${path.basename(__filename)}: ${time} ms ${mem} MiB`))
+  .then(({ time, mem }) => console.log(JSON.stringify({ time, mem })))
   .catch(reason => console.error(reason));

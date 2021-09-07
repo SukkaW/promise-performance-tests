@@ -73,13 +73,13 @@ function _fibonacciSequence() {
 
 module.exports = /*#__PURE__*/function () {
   var _fibonacci = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(id, n) {
-    var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value;
+    var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, value;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _iteratorNormalCompletion = true;
+            _iteratorAbruptCompletion = false;
             _didIteratorError = false;
             _context2.prev = 2;
             _iterator = _asyncIterator(fibonacciSequence());
@@ -89,77 +89,69 @@ module.exports = /*#__PURE__*/function () {
             return _iterator.next();
 
           case 6:
-            _step = _context2.sent;
-            _iteratorNormalCompletion = _step.done;
-            _context2.next = 10;
-            return _step.value;
-
-          case 10:
-            _value = _context2.sent;
-
-            if (_iteratorNormalCompletion) {
-              _context2.next = 18;
+            if (!(_iteratorAbruptCompletion = !(_step = _context2.sent).done)) {
+              _context2.next = 13;
               break;
             }
 
-            value = _value;
+            value = _step.value;
 
             if (!(n-- === 0)) {
-              _context2.next = 15;
+              _context2.next = 10;
               break;
             }
 
             return _context2.abrupt("return", value);
 
-          case 15:
-            _iteratorNormalCompletion = true;
+          case 10:
+            _iteratorAbruptCompletion = false;
             _context2.next = 4;
             break;
 
-          case 18:
-            _context2.next = 24;
+          case 13:
+            _context2.next = 19;
             break;
 
-          case 20:
-            _context2.prev = 20;
+          case 15:
+            _context2.prev = 15;
             _context2.t0 = _context2["catch"](2);
             _didIteratorError = true;
             _iteratorError = _context2.t0;
 
-          case 24:
-            _context2.prev = 24;
-            _context2.prev = 25;
+          case 19:
+            _context2.prev = 19;
+            _context2.prev = 20;
 
-            if (!(!_iteratorNormalCompletion && _iterator["return"] != null)) {
-              _context2.next = 29;
+            if (!(_iteratorAbruptCompletion && _iterator["return"] != null)) {
+              _context2.next = 24;
               break;
             }
 
-            _context2.next = 29;
+            _context2.next = 24;
             return _iterator["return"]();
 
-          case 29:
-            _context2.prev = 29;
+          case 24:
+            _context2.prev = 24;
 
             if (!_didIteratorError) {
-              _context2.next = 32;
+              _context2.next = 27;
               break;
             }
 
             throw _iteratorError;
 
-          case 32:
-            return _context2.finish(29);
-
-          case 33:
+          case 27:
             return _context2.finish(24);
 
-          case 34:
+          case 28:
+            return _context2.finish(19);
+
+          case 29:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[2, 20, 24, 34], [25,, 29, 33]]);
+    }, _callee2, null, [[2, 15, 19, 29], [20,, 24, 28]]);
   }));
 
   function fibonacci(_x, _x2) {

@@ -40,7 +40,10 @@ module.exports = fs
       })
     ],
     resolve: {
-      fallback: { 'path': false }
+      fallback: {
+        path: false,
+        perf_hooks: false
+      }
     },
     mode: 'production'
   }));

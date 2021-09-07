@@ -1,3 +1,16 @@
+// Copyright 2018 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     <https://www.apache.org/licenses/LICENSE-2.0>
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,131 +47,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-module.exports = {
-    iterations: 10000,
-    parallelQueries: 25,
-    runs: 20
-};
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-function dummy_1() {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
-}
-function dummy_2(a) {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/];
-    }); });
-}
-// a queryish object with all kinds of functions
-function Queryish() { }
-Queryish.prototype.all = dummy_1;
-Queryish.prototype.exec = dummy_1;
-Queryish.prototype.execWithin = dummy_2;
-Queryish.prototype.get = dummy_1;
-function queryish() {
-    return new Queryish();
-}
-var Uuid = /** @class */ (function () {
-    function Uuid() {
-    }
-    Uuid.prototype.v1 = function () { };
-    return Uuid;
-}());
-var uuid = new Uuid();
-var userAccount = { id: 1 };
-var account = {};
-function Blob() { }
-Blob.prototype.put = dummy_2;
-var BlobManager = /** @class */ (function () {
-    function BlobManager() {
-    }
-    BlobManager.prototype.create = function () {
-        return new Blob();
-    };
-    return BlobManager;
-}());
-var blobManager = new BlobManager();
-var cqQueryish = queryish();
-function Self() { }
-Self.prototype.byUuidOrPath = queryish;
-Self.prototype.createQuery = function createQuery(x, y) {
-    return __awaiter(this, void 0, void 0, function () { return __generator(this, function (_a) {
-        return [2 /*return*/, cqQueryish];
-    }); });
-};
-var self = new Self();
-function File() { }
-File.insert = queryish;
-File.whereUpdate = queryish;
-function FileVersion() { }
-FileVersion.insert = queryish;
-function Version() { }
-Version.createHash = function createHash(v) {
-    return 1;
-};
-Version.insert = queryish;
-function Transaction() { }
-Transaction.prototype.commit = dummy_1;
-Transaction.prototype.rollback = dummy_1;
-var Db = /** @class */ (function () {
-    function Db() {
-    }
-    Db.prototype.begin = function () {
-        return new Transaction();
-    };
-    return Db;
-}());
-var db = new Db();
-module.exports = {
-    uuid: uuid,
-    userAccount: userAccount,
-    account: account,
-    blobManager: blobManager,
-    self: self,
-    File: File,
-    FileVersion: FileVersion,
-    Version: Version,
-    db: db
-};
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 var config = require('../lib/config.js');
 var fakes = require('../lib/fakes-async.js');
 module.exports = function parallel(stream, idOrPath) {

@@ -1,8 +1,16 @@
-var __spreadArray = (this && this.__spreadArray) || function (to, from) {
-    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
-        to[j] = from[i];
-    return to;
-};
+// Copyright 2018 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     <https://www.apache.org/licenses/LICENSE-2.0>
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,69 +47,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-module.exports = function driver(times, fn) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args[_i - 2] = arguments[_i];
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
     }
-    var startTime = Date.now();
-    var promises = new Array(times);
-    var memMax = process.memoryUsage().rss;
-    var memStart = process.memoryUsage().rss;
-    for (var k = 0; k < times; ++k) {
-        promises[k] = fn.apply(void 0, __spreadArray([k], args));
-        memMax = Math.max(memMax, process.memoryUsage().rss);
-    }
-    return Promise.all(promises).then(function (_) { return ({
-        time: Date.now() - startTime,
-        mem: memMax - memStart
-    }); });
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-module.exports = {
-    iterations: 10000,
-    parallelQueries: 25,
-    runs: 20
-};
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     <https://www.apache.org/licenses/LICENSE-2.0>
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-var driver = require('../lib/driver.js');
+var driver = require('../lib/driver.js').driver;
 var config = require('../lib/config.js');
 module.exports = function measure(fn) {
     var args = [];
@@ -114,7 +69,7 @@ module.exports = function measure(fn) {
             switch (_b.label) {
                 case 0: 
                 // Warmup pass.
-                return [4 /*yield*/, driver.apply(void 0, __spreadArray([Math.min(350, config.iterations), fn], args))];
+                return [4 /*yield*/, driver.apply(void 0, __spreadArray([Math.min(350, config.iterations), fn], args, false))];
                 case 1:
                     // Warmup pass.
                     _b.sent();
@@ -124,7 +79,7 @@ module.exports = function measure(fn) {
                     _b.label = 2;
                 case 2:
                     if (!(k < config.runs)) return [3 /*break*/, 5];
-                    return [4 /*yield*/, driver.apply(void 0, __spreadArray([config.iterations, fn], args))];
+                    return [4 /*yield*/, driver.apply(void 0, __spreadArray([config.iterations, fn], args, false))];
                 case 3:
                     _a = _b.sent(), time = _a.time, mem = _a.mem;
                     times += time;

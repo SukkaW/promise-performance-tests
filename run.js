@@ -1,22 +1,34 @@
 const cp = require('child_process');
 const listDir = require('@sukka/listdir');
+const table = require('text-table');
+
+const config = require('./lib/config.js');
 
 (async () => {
   printPlatformInformation();
+  printBenchmarkConfig();
 
   const BENCHMARKS = (await listDir('benchmark'))
     .filter(filename => filename.endsWith('.js'))
-    .map(filename => `./benchmark/${filename}`)
     .sort();
+
+  const results = [['Name', 'Time (ms)', 'Memory (MiB)']];
 
   try {
     for (const benchmark of BENCHMARKS) {
-      const p = cp.spawnSync(process.execPath, [benchmark]);
+      console.log(`Benchmarking ${benchmark}...`);
+      const p = cp.spawnSync(process.execPath, [`./benchmark/${benchmark}`]);
       const stdout = p.stdout.toString().trim();
       const stderr = p.stderr.toString().trim();
-      if (stdout !== '') console.log(stdout);
+      try {
+        const data = JSON.parse(stdout);
+        results.push([benchmark, data.time, data.mem]);
+      } catch {}
       if (stderr !== '') console.error(`[${benchmark}]`, stderr);
     }
+
+    console.log('');
+    console.log(table(results, { align: ['l', 'r', 'r'] }));
   } catch (err) {
     console.error(err);
   }
@@ -37,4 +49,12 @@ function printPlatformInformation() {
   }).join('\n');
 
   console.log(`${plat}\nCPU: ${cpusInfo}\nMemory: ${os.totalmem() / (1024 * 1024)} MiB\n`);
+}
+
+function printBenchmarkConfig() {
+  console.log('Benchmark config:');
+  console.log('Iterations:', config.iterations);
+  console.log('Parallel queries:', config.parallelQueries);
+  console.log('Runs:', config.runs);
+  console.log();
 }
