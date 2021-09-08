@@ -1,7 +1,7 @@
-Promise = require('core-js-pure/features/promise');
+global.SPromise = require('spromisemespeed');
 
 const doxbee = require('../lib/doxbee-promises.js');
-const measure = require('../lib/measure-promises.js');
+const measure = require('../lib/measure-spromiseme.js');
 
 measure(doxbee, 'b', 'c')
   .then(({ time, mem }) => {

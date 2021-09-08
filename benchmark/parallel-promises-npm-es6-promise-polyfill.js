@@ -1,9 +1,9 @@
-Promise = require('core-js-pure/features/promise');
+Promise = require('es6-promise-polyfill').Promise;
 
-const doxbee = require('../lib/doxbee-promises.js');
+const parallel = require('../lib/parallel-promises.js');
 const measure = require('../lib/measure-promises.js');
 
-measure(doxbee, 'b', 'c')
+measure(parallel, 'b', 'c')
   .then(({ time, mem }) => {
     console.log(JSON.stringify({ time, mem }));
   })
