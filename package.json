@@ -33,6 +33,7 @@
     "promis": "^1.1.4",
     "promise": "^8.1.0",
     "promise-polyfill": "^8.2.0",
+    "q": "^1.5.1",
     "regenerator-runtime": "^0.11.1",
     "spromisemespeed": "^1.0.3",
     "text-table": "^0.2.0"

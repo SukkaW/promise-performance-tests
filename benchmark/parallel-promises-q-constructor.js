@@ -1,9 +1,10 @@
-const SPromise = require('spromisemespeed');
+const Q = require('q');
+Promise = Q.Promise;
 
 const parallel = require('../lib/parallel-promises.js');
-const measure = require('../lib/measure-promise-no-constructor');
+const measure = require('../lib/measure-promises.js');
 
-measure(parallel, SPromise, SPromise.all, 'b', 'c')
+measure(parallel, 'b', 'c')
   .then(({ time, mem }) => {
     console.log(JSON.stringify({ time, mem }));
   })
