@@ -7,13 +7,17 @@
     "lint": "eslint lib/*.js benchmark/*.js run.js webpack.config.js --fix",
     "build:doxbee-async-tsc": "node tsc.js 'lib/doxbee-async.js' 'build/doxbee-async-tsc.js'",
     "build:doxbee-async-babel": "babel -o build/doxbee-async-babel.js --presets=@babel/preset-env lib/doxbee-async.js",
+    "build:doxbee-async-fast-async": "babel -o build/doxbee-async-fast-async.js --plugins=module:fast-async lib/doxbee-async.js",
     "build:fibonacci-async-tsc": "node tsc.js 'lib/fibonacci-async.js' 'build/fibonacci-async-tsc.js'",
     "build:fibonacci-async-babel": "babel -o build/fibonacci-async-babel.js --plugins @babel/plugin-proposal-async-generator-functions --presets=@babel/preset-env lib/fibonacci-async.js",
+    "build:fibonacci-async-fast-async": "babel -o build/fibonacci-async-fast-async.js --presets=@babel/preset-env --plugins module:fast-async lib/fibonacci-async.js",
     "build:measure-async-tsc": "node tsc.js 'lib/measure-async.js' 'build/measure-async-tsc.js'",
     "build:measure-async-babel": "babel -o build/measure-async-babel.js --presets=@babel/preset-env lib/measure-async.js",
+    "build:measure-async-fast-async": "babel -o build/measure-async-fast-async.js --plugins=module:fast-async lib/measure-async.js",
     "build:parallel-async-tsc": "node tsc.js 'lib/parallel-async.js' 'build/parallel-async-tsc.js'",
     "build:parallel-async-babel": "babel -o build/parallel-async-babel.js --presets=@babel/preset-env lib/parallel-async.js",
-    "build": "npm run build:doxbee-async-tsc && npm run build:doxbee-async-babel && npm run build:fibonacci-async-tsc && npm run build:fibonacci-async-babel && npm run build:measure-async-tsc && npm run build:measure-async-babel && npm run build:parallel-async-tsc && npm run build:parallel-async-babel && webpack",
+    "build:parallel-async-fast-async": "babel -o build/parallel-async-fast-async.js --plugins=module:fast-async lib/parallel-async.js",
+    "build": "npm run build:doxbee-async-tsc && npm run build:doxbee-async-babel && npm run build:doxbee-async-fast-async && npm run build:fibonacci-async-tsc && npm run build:fibonacci-async-babel && npm run build:fibonacci-async-fast-async && npm run build:measure-async-tsc && npm run build:measure-async-babel && npm run build:measure-async-fast-async && npm run build:parallel-async-tsc && npm run build:parallel-async-babel && npm run build:parallel-async-fast-async && webpack",
     "postinstall": "npm run build",
     "start": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -36,7 +40,8 @@
     "q": "^1.5.1",
     "regenerator-runtime": "^0.11.1",
     "spromisemespeed": "^1.0.3",
-    "text-table": "^0.2.0"
+    "text-table": "^0.2.0",
+    "zousan": "^3.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -45,6 +50,7 @@
     "eslint": "^7.28.0",
     "eslint-config-sukka": "^1.1.2",
     "eslint-plugin-node": "^11.1.0",
+    "fast-async": "^6.3.8",
     "typescript": "^4.4.2",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.2"
