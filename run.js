@@ -1,6 +1,6 @@
 const cp = require('child_process');
 const listDir = require('@sukka/listdir');
-const table = require('text-table');
+const { table, getBorderCharacters } = require('table');
 
 const config = require('./lib/config.js');
 
@@ -23,12 +23,24 @@ const config = require('./lib/config.js');
       try {
         const data = JSON.parse(stdout);
         results.push([benchmark, data.time, data.mem]);
-      } catch {}
+      } catch { }
       if (stderr !== '') console.error(`[${benchmark}]`, stderr);
     }
 
     console.log('');
-    console.log(table(results, { align: ['l', 'r', 'r'] }));
+    console.log(table(results, {
+      columns: [
+        { alignment: 'left' },
+        { alignment: 'right' },
+        { alignment: 'right' }
+      ],
+      columnDefault: {
+        paddingLeft: 0,
+        paddingRight: 3
+      },
+      border: getBorderCharacters('void'),
+      drawHorizontalLine: () => false
+    }));
   } catch (err) {
     console.error(err);
   }
