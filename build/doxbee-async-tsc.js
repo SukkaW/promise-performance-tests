@@ -50,21 +50,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var fakes = require('../lib/fakes-async.js');
 module.exports = function doxbee(stream, idOrPath) {
     return __awaiter(this, void 0, void 0, function () {
-        var blob, tx, blobId, file, previousId, version, fileId, splitPath, fileName, q, err_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var blob, tx, blobPromise, filePromise, _a, blobId, file, previousId, version, fileId, splitPath, fileName, q, err_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     blob = fakes.blobManager.create(fakes.account);
                     tx = fakes.db.begin();
-                    _a.label = 1;
+                    blobPromise = blob.put(stream);
+                    filePromise = fakes.self.byUuidOrPath(idOrPath).get();
+                    _b.label = 1;
                 case 1:
-                    _a.trys.push([1, 12, , 14]);
-                    return [4 /*yield*/, blob.put(stream)];
+                    _b.trys.push([1, 11, , 13]);
+                    return [4 /*yield*/, Promise.all([blobPromise, filePromise])];
                 case 2:
-                    blobId = _a.sent();
-                    return [4 /*yield*/, fakes.self.byUuidOrPath(idOrPath).get()];
-                case 3:
-                    file = _a.sent();
+                    _a = _b.sent(), blobId = _a[0], file = _a[1];
                     previousId = file ? file.version : null;
                     version = {
                         userAccountId: fakes.userAccount.id,
@@ -75,10 +74,10 @@ module.exports = function doxbee(stream, idOrPath) {
                     };
                     version.id = fakes.Version.createHash(version);
                     return [4 /*yield*/, fakes.Version.insert(version).execWithin(tx)];
-                case 4:
-                    _a.sent();
+                case 3:
+                    _b.sent();
                     fileId = void 0;
-                    if (!!file) return [3 /*break*/, 7];
+                    if (!!file) return [3 /*break*/, 6];
                     splitPath = idOrPath.split('/');
                     fileName = splitPath[splitPath.length - 1];
                     fileId = fakes.uuid.v1();
@@ -88,35 +87,35 @@ module.exports = function doxbee(stream, idOrPath) {
                             name: fileName,
                             version: version.id
                         })];
-                case 5:
-                    q = _a.sent();
+                case 4:
+                    q = _b.sent();
                     return [4 /*yield*/, q.execWithin(tx)];
+                case 5:
+                    _b.sent();
+                    return [3 /*break*/, 7];
                 case 6:
-                    _a.sent();
-                    return [3 /*break*/, 8];
-                case 7:
                     fileId = file.id;
-                    _a.label = 8;
-                case 8: return [4 /*yield*/, fakes.FileVersion.insert({
+                    _b.label = 7;
+                case 7: return [4 /*yield*/, fakes.FileVersion.insert({
                         fileId: fileId,
                         versionId: version.id
                     }).execWithin(tx)];
-                case 9:
-                    _a.sent();
+                case 8:
+                    _b.sent();
                     return [4 /*yield*/, fakes.File.whereUpdate({ id: fileId }, { version: version.id }).execWithin(tx)];
-                case 10:
-                    _a.sent();
+                case 9:
+                    _b.sent();
                     return [4 /*yield*/, tx.commit()];
+                case 10:
+                    _b.sent();
+                    return [3 /*break*/, 13];
                 case 11:
-                    _a.sent();
-                    return [3 /*break*/, 14];
-                case 12:
-                    err_1 = _a.sent();
+                    err_1 = _b.sent();
                     return [4 /*yield*/, tx.rollback()];
-                case 13:
-                    _a.sent();
+                case 12:
+                    _b.sent();
                     throw err_1;
-                case 14: return [2 /*return*/];
+                case 13: return [2 /*return*/];
             }
         });
     });

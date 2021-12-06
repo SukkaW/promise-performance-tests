@@ -302,9 +302,11 @@ const fakes = require('../lib/fakes-async.js');
 
 module.exports = function doxbee(stream, idOrPath) {
   return new Promise(function ($return, $error) {
-    let blob, tx;
+    let blob, tx, blobPromise, filePromise;
     blob = fakes.blobManager.create(fakes.account);
     tx = fakes.db.begin();
+    blobPromise = blob.put(stream);
+    filePromise = fakes.self.byUuidOrPath(idOrPath).get();
 
     var $Try_1_Post = function () {
       return $return();
@@ -318,58 +320,55 @@ module.exports = function doxbee(stream, idOrPath) {
 
     try {
       let blobId, file, previousId, version, fileId;
-      return blob.put(stream).then(function ($await_4) {
-        blobId = $await_4;
-        return fakes.self.byUuidOrPath(idOrPath).get().then(function ($await_5) {
-          file = $await_5;
-          previousId = file ? file.version : null;
-          version = {
-            userAccountId: fakes.userAccount.id,
-            date: new Date(),
-            blobId,
-            creatorId: fakes.userAccount.id,
-            previousId
-          };
-          version.id = fakes.Version.createHash(version);
-          return fakes.Version.insert(version).execWithin(tx).then(function ($await_6) {
-            if (!file) {
-              let splitPath, fileName, q;
-              splitPath = idOrPath.split('/');
-              fileName = splitPath[splitPath.length - 1];
-              fileId = fakes.uuid.v1();
-              return fakes.self.createQuery(idOrPath, {
-                id: fileId,
-                userAccountId: fakes.userAccount.id,
-                name: fileName,
-                version: version.id
-              }).then(function ($await_7) {
-                q = $await_7;
-                return q.execWithin(tx).then(function ($await_8) {
-                  return $If_2.call(this);
-                }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+      return Promise.all([blobPromise, filePromise]).then(function ($await_4) {
+        [blobId, file] = $await_4;
+        previousId = file ? file.version : null;
+        version = {
+          userAccountId: fakes.userAccount.id,
+          date: new Date(),
+          blobId,
+          creatorId: fakes.userAccount.id,
+          previousId
+        };
+        version.id = fakes.Version.createHash(version);
+        return fakes.Version.insert(version).execWithin(tx).then(function ($await_5) {
+          if (!file) {
+            let splitPath, fileName, q;
+            splitPath = idOrPath.split('/');
+            fileName = splitPath[splitPath.length - 1];
+            fileId = fakes.uuid.v1();
+            return fakes.self.createQuery(idOrPath, {
+              id: fileId,
+              userAccountId: fakes.userAccount.id,
+              name: fileName,
+              version: version.id
+            }).then(function ($await_6) {
+              q = $await_6;
+              return q.execWithin(tx).then(function ($await_7) {
+                return $If_2.call(this);
               }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-            } else {
-              fileId = file.id;
-              return $If_2.call(this);
-            }
+            }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+          } else {
+            fileId = file.id;
+            return $If_2.call(this);
+          }
 
-            function $If_2() {
-              return fakes.FileVersion.insert({
-                fileId,
-                versionId: version.id
+          function $If_2() {
+            return fakes.FileVersion.insert({
+              fileId,
+              versionId: version.id
+            }).execWithin(tx).then(function ($await_8) {
+              return fakes.File.whereUpdate({
+                id: fileId
+              }, {
+                version: version.id
               }).execWithin(tx).then(function ($await_9) {
-                return fakes.File.whereUpdate({
-                  id: fileId
-                }, {
-                  version: version.id
-                }).execWithin(tx).then(function ($await_10) {
-                  return tx.commit().then(function ($await_11) {
-                    return $Try_1_Post();
-                  }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+                return tx.commit().then(function ($await_10) {
+                  return $Try_1_Post();
                 }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
               }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-            }
-          }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+            }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+          }
         }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
       }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
     } catch (err) {
