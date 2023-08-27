@@ -26,7 +26,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -89,35 +89,39 @@ function fibonacciSequence() {
     });
 }
 module.exports = function fibonacci(id, n) {
-    var e_1, _a;
+    var _a, e_1, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
-        var _b, _c, value, e_1_1;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var _d, _e, _f, value, e_1_1;
+        return __generator(this, function (_g) {
+            switch (_g.label) {
                 case 0:
-                    _d.trys.push([0, 5, 6, 11]);
-                    _b = __asyncValues(fibonacciSequence());
-                    _d.label = 1;
-                case 1: return [4 /*yield*/, _b.next()];
+                    _g.trys.push([0, 5, 6, 11]);
+                    _d = true, _e = __asyncValues(fibonacciSequence());
+                    _g.label = 1;
+                case 1: return [4 /*yield*/, _e.next()];
                 case 2:
-                    if (!(_c = _d.sent(), !_c.done)) return [3 /*break*/, 4];
-                    value = _c.value;
+                    if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 4];
+                    _c = _f.value;
+                    _d = false;
+                    value = _c;
                     if (n-- === 0)
                         return [2 /*return*/, value];
-                    _d.label = 3;
-                case 3: return [3 /*break*/, 1];
+                    _g.label = 3;
+                case 3:
+                    _d = true;
+                    return [3 /*break*/, 1];
                 case 4: return [3 /*break*/, 11];
                 case 5:
-                    e_1_1 = _d.sent();
+                    e_1_1 = _g.sent();
                     e_1 = { error: e_1_1 };
                     return [3 /*break*/, 11];
                 case 6:
-                    _d.trys.push([6, , 9, 10]);
-                    if (!(_c && !_c.done && (_a = _b.return))) return [3 /*break*/, 8];
-                    return [4 /*yield*/, _a.call(_b)];
+                    _g.trys.push([6, , 9, 10]);
+                    if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 8];
+                    return [4 /*yield*/, _b.call(_e)];
                 case 7:
-                    _d.sent();
-                    _d.label = 8;
+                    _g.sent();
+                    _g.label = 8;
                 case 8: return [3 /*break*/, 10];
                 case 9:
                     if (e_1) throw e_1.error;

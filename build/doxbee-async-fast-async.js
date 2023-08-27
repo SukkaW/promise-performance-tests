@@ -1,290 +1,3 @@
-Function.prototype.$asyncbind = function $asyncbind(self, catcher) {
-  "use strict";
-
-  if (!Function.prototype.$asyncbind) {
-    Object.defineProperty(Function.prototype, "$asyncbind", {
-      value: $asyncbind,
-      enumerable: false,
-      configurable: true,
-      writable: true
-    });
-  }
-
-  if (!$asyncbind.trampoline) {
-    $asyncbind.trampoline = function trampoline(t, x, s, e, u) {
-      return function b(q) {
-        while (q) {
-          if (q.then) {
-            q = q.then(b, e);
-            return u ? undefined : q;
-          }
-
-          try {
-            if (q.pop) {
-              if (q.length) return q.pop() ? x.call(t) : q;
-              q = s;
-            } else q = q.call(t);
-          } catch (r) {
-            return e(r);
-          }
-        }
-      };
-    };
-  }
-
-  if (!$asyncbind.LazyThenable) {
-    $asyncbind.LazyThenable = function () {
-      function isThenable(obj) {
-        return obj && obj instanceof Object && typeof obj.then === "function";
-      }
-
-      function resolution(p, r, how) {
-        try {
-          var x = how ? how(r) : r;
-          if (p === x) return p.reject(new TypeError("Promise resolution loop"));
-
-          if (isThenable(x)) {
-            x.then(function (y) {
-              resolution(p, y);
-            }, function (e) {
-              p.reject(e);
-            });
-          } else {
-            p.resolve(x);
-          }
-        } catch (ex) {
-          p.reject(ex);
-        }
-      }
-
-      function _unchained(v) {}
-
-      function thenChain(res, rej) {
-        this.resolve = res;
-        this.reject = rej;
-      }
-
-      function Chained() {}
-
-      ;
-      Chained.prototype = {
-        resolve: _unchained,
-        reject: _unchained,
-        then: thenChain
-      };
-
-      function then(res, rej) {
-        var chain = new Chained();
-
-        try {
-          this._resolver(function (value) {
-            return isThenable(value) ? value.then(res, rej) : resolution(chain, value, res);
-          }, function (ex) {
-            resolution(chain, ex, rej);
-          });
-        } catch (ex) {
-          resolution(chain, ex, rej);
-        }
-
-        return chain;
-      }
-
-      function Thenable(resolver) {
-        this._resolver = resolver;
-        this.then = then;
-      }
-
-      ;
-
-      Thenable.resolve = function (v) {
-        return Thenable.isThenable(v) ? v : {
-          then: function (resolve) {
-            return resolve(v);
-          }
-        };
-      };
-
-      Thenable.isThenable = isThenable;
-      return Thenable;
-    }();
-
-    $asyncbind.EagerThenable = $asyncbind.Thenable = ($asyncbind.EagerThenableFactory = function (tick) {
-      tick = tick || typeof process === "object" && process.nextTick || typeof setImmediate === "function" && setImmediate || function (f) {
-        setTimeout(f, 0);
-      };
-
-      var soon = function () {
-        var fq = [],
-            fqStart = 0,
-            bufferSize = 1024;
-
-        function callQueue() {
-          while (fq.length - fqStart) {
-            try {
-              fq[fqStart]();
-            } catch (ex) {}
-
-            fq[fqStart++] = undefined;
-
-            if (fqStart === bufferSize) {
-              fq.splice(0, bufferSize);
-              fqStart = 0;
-            }
-          }
-        }
-
-        return function (fn) {
-          fq.push(fn);
-          if (fq.length - fqStart === 1) tick(callQueue);
-        };
-      }();
-
-      function Zousan(func) {
-        if (func) {
-          var me = this;
-          func(function (arg) {
-            me.resolve(arg);
-          }, function (arg) {
-            me.reject(arg);
-          });
-        }
-      }
-
-      Zousan.prototype = {
-        resolve: function (value) {
-          if (this.state !== undefined) return;
-          if (value === this) return this.reject(new TypeError("Attempt to resolve promise with self"));
-          var me = this;
-
-          if (value && (typeof value === "function" || typeof value === "object")) {
-            try {
-              var first = 0;
-              var then = value.then;
-
-              if (typeof then === "function") {
-                then.call(value, function (ra) {
-                  if (!first++) {
-                    me.resolve(ra);
-                  }
-                }, function (rr) {
-                  if (!first++) {
-                    me.reject(rr);
-                  }
-                });
-                return;
-              }
-            } catch (e) {
-              if (!first) this.reject(e);
-              return;
-            }
-          }
-
-          this.state = STATE_FULFILLED;
-          this.v = value;
-          if (me.c) soon(function () {
-            for (var n = 0, l = me.c.length; n < l; n++) STATE_FULFILLED(me.c[n], value);
-          });
-        },
-        reject: function (reason) {
-          if (this.state !== undefined) return;
-          this.state = STATE_REJECTED;
-          this.v = reason;
-          var clients = this.c;
-          if (clients) soon(function () {
-            for (var n = 0, l = clients.length; n < l; n++) STATE_REJECTED(clients[n], reason);
-          });
-        },
-        then: function (onF, onR) {
-          var p = new Zousan();
-          var client = {
-            y: onF,
-            n: onR,
-            p: p
-          };
-
-          if (this.state === undefined) {
-            if (this.c) this.c.push(client);else this.c = [client];
-          } else {
-            var s = this.state,
-                a = this.v;
-            soon(function () {
-              s(client, a);
-            });
-          }
-
-          return p;
-        }
-      };
-
-      function STATE_FULFILLED(c, arg) {
-        if (typeof c.y === "function") {
-          try {
-            var yret = c.y.call(undefined, arg);
-            c.p.resolve(yret);
-          } catch (err) {
-            c.p.reject(err);
-          }
-        } else c.p.resolve(arg);
-      }
-
-      function STATE_REJECTED(c, reason) {
-        if (typeof c.n === "function") {
-          try {
-            var yret = c.n.call(undefined, reason);
-            c.p.resolve(yret);
-          } catch (err) {
-            c.p.reject(err);
-          }
-        } else c.p.reject(reason);
-      }
-
-      Zousan.resolve = function (val) {
-        if (val && val instanceof Zousan) return val;
-        var z = new Zousan();
-        z.resolve(val);
-        return z;
-      };
-
-      Zousan.reject = function (err) {
-        if (err && err instanceof Zousan) return err;
-        var z = new Zousan();
-        z.reject(err);
-        return z;
-      };
-
-      Zousan.version = "2.3.3-nodent";
-      return Zousan;
-    })();
-  }
-
-  function boundThen() {
-    return resolver.apply(self, arguments);
-  }
-
-  var resolver = this;
-
-  switch (catcher) {
-    case true:
-      return new $asyncbind.Thenable(boundThen);
-
-    case 0:
-      return new $asyncbind.LazyThenable(boundThen);
-
-    case undefined:
-      boundThen.then = boundThen;
-      return boundThen;
-
-    default:
-      return function () {
-        try {
-          return resolver.apply(self, arguments);
-        } catch (ex) {
-          return catcher(ex);
-        }
-      };
-  }
-};
-
 // Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -298,8 +11,8 @@ Function.prototype.$asyncbind = function $asyncbind(self, catcher) {
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-const fakes = require('../lib/fakes-async.js');
 
+const fakes = require('../lib/fakes-async.js');
 module.exports = function doxbee(stream, idOrPath) {
   return new Promise(function ($return, $error) {
     let blob, tx, blobPromise, filePromise;
@@ -307,70 +20,106 @@ module.exports = function doxbee(stream, idOrPath) {
     tx = fakes.db.begin();
     blobPromise = blob.put(stream);
     filePromise = fakes.self.byUuidOrPath(idOrPath).get();
-
     var $Try_1_Post = function () {
-      return $return();
-    }.$asyncbind(this, $error);
-
+      try {
+        return $return();
+      } catch ($boundEx) {
+        return $error($boundEx);
+      }
+    };
     var $Try_1_Catch = function (err) {
-      return tx.rollback().then(function ($await_3) {
-        throw err;
-      }.$asyncbind(this, $error), $error);
-    }.$asyncbind(this, $error);
-
+      try {
+        return Promise.resolve(tx.rollback()).then(function ($await_3) {
+          try {
+            throw err;
+          } catch ($boundEx) {
+            return $error($boundEx);
+          }
+        }, $error);
+      } catch ($boundEx) {
+        return $error($boundEx);
+      }
+    };
     try {
       let blobId, file, previousId, version, fileId;
-      return Promise.all([blobPromise, filePromise]).then(function ($await_4) {
-        [blobId, file] = $await_4;
-        previousId = file ? file.version : null;
-        version = {
-          userAccountId: fakes.userAccount.id,
-          date: new Date(),
-          blobId,
-          creatorId: fakes.userAccount.id,
-          previousId
-        };
-        version.id = fakes.Version.createHash(version);
-        return fakes.Version.insert(version).execWithin(tx).then(function ($await_5) {
-          if (!file) {
-            let splitPath, fileName, q;
-            splitPath = idOrPath.split('/');
-            fileName = splitPath[splitPath.length - 1];
-            fileId = fakes.uuid.v1();
-            return fakes.self.createQuery(idOrPath, {
-              id: fileId,
-              userAccountId: fakes.userAccount.id,
-              name: fileName,
-              version: version.id
-            }).then(function ($await_6) {
-              q = $await_6;
-              return q.execWithin(tx).then(function ($await_7) {
+      return Promise.resolve(Promise.all([blobPromise, filePromise])).then(function ($await_4) {
+        try {
+          [blobId, file] = $await_4;
+          previousId = file ? file.version : null;
+          version = {
+            userAccountId: fakes.userAccount.id,
+            date: new Date(),
+            blobId,
+            creatorId: fakes.userAccount.id,
+            previousId
+          };
+          version.id = fakes.Version.createHash(version);
+          return Promise.resolve(fakes.Version.insert(version).execWithin(tx)).then(function ($await_5) {
+            try {
+              if (!file) {
+                let splitPath, fileName, q;
+                splitPath = idOrPath.split('/');
+                fileName = splitPath[splitPath.length - 1];
+                fileId = fakes.uuid.v1();
+                return Promise.resolve(fakes.self.createQuery(idOrPath, {
+                  id: fileId,
+                  userAccountId: fakes.userAccount.id,
+                  name: fileName,
+                  version: version.id
+                })).then(function ($await_6) {
+                  try {
+                    q = $await_6;
+                    return Promise.resolve(q.execWithin(tx)).then(function ($await_7) {
+                      try {
+                        return $If_2.call(this);
+                      } catch ($boundEx) {
+                        return $Try_1_Catch($boundEx);
+                      }
+                    }.bind(this), $Try_1_Catch);
+                  } catch ($boundEx) {
+                    return $Try_1_Catch($boundEx);
+                  }
+                }.bind(this), $Try_1_Catch);
+              } else {
+                fileId = file.id;
                 return $If_2.call(this);
-              }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-            }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-          } else {
-            fileId = file.id;
-            return $If_2.call(this);
-          }
-
-          function $If_2() {
-            return fakes.FileVersion.insert({
-              fileId,
-              versionId: version.id
-            }).execWithin(tx).then(function ($await_8) {
-              return fakes.File.whereUpdate({
-                id: fileId
-              }, {
-                version: version.id
-              }).execWithin(tx).then(function ($await_9) {
-                return tx.commit().then(function ($await_10) {
-                  return $Try_1_Post();
-                }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-              }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-            }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-          }
-        }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
-      }.$asyncbind(this, $Try_1_Catch), $Try_1_Catch);
+              }
+              function $If_2() {
+                return Promise.resolve(fakes.FileVersion.insert({
+                  fileId,
+                  versionId: version.id
+                }).execWithin(tx)).then(function ($await_8) {
+                  try {
+                    return Promise.resolve(fakes.File.whereUpdate({
+                      id: fileId
+                    }, {
+                      version: version.id
+                    }).execWithin(tx)).then(function ($await_9) {
+                      try {
+                        return Promise.resolve(tx.commit()).then(function ($await_10) {
+                          try {
+                            return $Try_1_Post();
+                          } catch ($boundEx) {
+                            return $Try_1_Catch($boundEx);
+                          }
+                        }, $Try_1_Catch);
+                      } catch ($boundEx) {
+                        return $Try_1_Catch($boundEx);
+                      }
+                    }, $Try_1_Catch);
+                  } catch ($boundEx) {
+                    return $Try_1_Catch($boundEx);
+                  }
+                }, $Try_1_Catch);
+              }
+            } catch ($boundEx) {
+              return $Try_1_Catch($boundEx);
+            }
+          }.bind(this), $Try_1_Catch);
+        } catch ($boundEx) {
+          return $Try_1_Catch($boundEx);
+        }
+      }.bind(this), $Try_1_Catch);
     } catch (err) {
       $Try_1_Catch(err)
     }

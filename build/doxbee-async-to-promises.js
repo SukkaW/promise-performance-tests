@@ -1,5 +1,4 @@
 function _empty() {}
-
 // Copyright 2018 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,50 +12,40 @@ function _empty() {}
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-const fakes = require('../lib/fakes-async.js');
 
+const fakes = require('../lib/fakes-async.js');
 function _awaitIgnored(value, direct) {
   if (!direct) {
     return value && value.then ? value.then(_empty) : Promise.resolve();
   }
 }
-
 function _await(value, then, direct) {
   if (direct) {
     return then ? then(value) : value;
   }
-
   if (!value || !value.then) {
     value = Promise.resolve(value);
   }
-
   return then ? value.then(then) : value;
 }
-
 function _invoke(body, then) {
   var result = body();
-
   if (result && result.then) {
     return result.then(then);
   }
-
   return then(result);
 }
-
 function _catch(body, recover) {
   try {
     var result = body();
   } catch (e) {
     return recover(e);
   }
-
   if (result && result.then) {
     return result.then(void 0, recover);
   }
-
   return result;
 }
-
 module.exports = function doxbee(stream, idOrPath) {
   try {
     const blob = fakes.blobManager.create(fakes.account);
