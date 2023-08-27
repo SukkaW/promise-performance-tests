@@ -4,12 +4,30 @@ const { table, getBorderCharacters } = require('table');
 
 const config = require('./lib/config.js');
 
+const arg = process.argv.slice(2).join(' ');
+
+const benchmarkFilter = (file) => {
+  const conditions = [];
+  if (arg.includes('--native-vs-bluebird')) {
+    conditions.push(file.includes('promises-bluebird') || file.includes('async-es2017-native') || file.includes('promises-es2015-native'));
+  }
+  if (arg.includes('--promise-polyfill')) {
+    conditions.push(file.includes('doxbee-promises') || file.includes('parallel-promises'));
+  }
+  if (arg.includes('--async')) {
+    conditions.push(file.includes('async-'))
+  }
+
+  return conditions.every(Boolean);
+};
+
 (async () => {
   printPlatformInformation();
   printBenchmarkConfig();
 
   const BENCHMARKS = (await listDir('benchmark'))
     .filter(filename => filename.endsWith('.js'))
+    .filter(benchmarkFilter)
     .sort();
 
   const results = [['Name', 'Time (ms)', 'Memory (MiB)']];
