@@ -1,4 +1,4 @@
-const SPromise = require('spromisemespeed');
+const SPromise = require('spromisemespeed/dist/SPromiseMeSpeed.min.js');
 
 const parallel = require('../lib/parallel-promises.js');
 const measure = require('../lib/measure-promise-no-constructor');

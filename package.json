@@ -22,7 +22,7 @@
     "build:parallel-async-fast-async": "babel -o build/parallel-async-fast-async.js --plugins=module:fast-async lib/parallel-async.js",
     "build:parallel-async-to-promises": "babel -o build/parallel-async-to-promises.js --plugins=module:babel-plugin-transform-async-to-promises lib/parallel-async.js",
     "build": "npm run build:doxbee-async-tsc && npm run build:doxbee-async-babel && npm run build:doxbee-async-fast-async && npm run build:doxbee-async-to-promises && npm run build:fibonacci-async-tsc && npm run build:fibonacci-async-to-promises && npm run build:fibonacci-async-babel && npm run build:fibonacci-async-fast-async && npm run build:measure-async-tsc && npm run build:measure-async-babel && npm run build:measure-async-fast-async && npm run build:measure-async-to-promises && npm run build:parallel-async-tsc && npm run build:parallel-async-babel && npm run build:parallel-async-fast-async && npm run build:parallel-async-to-promises && webpack",
-    "postinstall": "npm run build",
+    "postinstall": "patch-package && npm run build",
     "start": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -38,6 +38,7 @@
     "core-js-pure": "^3.32.1",
     "es6-promise": "^4.2.8",
     "es6-promise-polyfill": "^1.2.0",
+    "patch-package": "^8.0.0",
     "promis": "^1.1.4",
     "promise": "^8.3.0",
     "promise-polyfill": "^8.3.0",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@babel/cli": "^7.22.10",
     "@babel/core": "^7.22.11",
+    "@babel/plugin-proposal-async-generator-functions": "^7.20.7",
     "@babel/preset-env": "^7.22.10",
     "babel-plugin-transform-async-to-promises": "^0.8.18",
     "eslint": "^8.48.0",
