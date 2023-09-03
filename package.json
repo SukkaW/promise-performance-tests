@@ -38,6 +38,7 @@
     "core-js-pure": "^3.32.1",
     "es6-promise": "^4.2.8",
     "es6-promise-polyfill": "^1.2.0",
+    "my-promise": "^1.1.0",
     "patch-package": "^8.0.0",
     "promis": "^1.1.4",
     "promise": "^8.3.0",
