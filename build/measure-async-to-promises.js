@@ -190,7 +190,7 @@ module.exports = function measure(fn, ...args) {
       }, function () {
         return ++k;
       }, function () {
-        // eslint-disable-next-line no-await-in-loop
+        // eslint-disable-next-line no-await-in-loop -- benchmark
         return _await(driver(config.iterations, fn, ...args), function ({
           time,
           mem

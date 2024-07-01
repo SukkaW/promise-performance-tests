@@ -40,7 +40,7 @@ function _catch(body, recover) {
   }
   return result;
 }
-module.exports = function parallel(stream, idOrPath) {
+module.exports = function parallel(_stream, _idOrPath) {
   try {
     const queries = new Array(config.parallelQueries);
     const tx = fakes.db.begin();

@@ -51,8 +51,9 @@ var __await = (this && this.__await) || function (v) { return this instanceof __
 var __asyncGenerator = (this && this.__asyncGenerator) || function (thisArg, _arguments, generator) {
     if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
     var g = generator.apply(thisArg, _arguments || []), i, q = [];
-    return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-    function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
+    return i = {}, verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function () { return this; }, i;
+    function awaitReturn(f) { return function (v) { return Promise.resolve(v).then(f, reject); }; }
+    function verb(n, f) { if (g[n]) { i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; if (f) i[n] = f(i[n]); } }
     function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
     function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
     function fulfill(value) { resume("next", value); }
@@ -89,26 +90,26 @@ function fibonacciSequence() {
     });
 }
 module.exports = function fibonacci(id, n) {
-    var _a, e_1, _b, _c;
     return __awaiter(this, void 0, void 0, function () {
-        var _d, _e, _f, value, e_1_1;
+        var _a, _b, _c, value, e_1_1;
+        var _d, e_1, _e, _f;
         return __generator(this, function (_g) {
             switch (_g.label) {
                 case 0:
                     _g.trys.push([0, 5, 6, 11]);
-                    _d = true, _e = __asyncValues(fibonacciSequence());
+                    _a = true, _b = __asyncValues(fibonacciSequence());
                     _g.label = 1;
-                case 1: return [4 /*yield*/, _e.next()];
+                case 1: return [4 /*yield*/, _b.next()];
                 case 2:
-                    if (!(_f = _g.sent(), _a = _f.done, !_a)) return [3 /*break*/, 4];
-                    _c = _f.value;
-                    _d = false;
-                    value = _c;
+                    if (!(_c = _g.sent(), _d = _c.done, !_d)) return [3 /*break*/, 4];
+                    _f = _c.value;
+                    _a = false;
+                    value = _f;
                     if (n-- === 0)
                         return [2 /*return*/, value];
                     _g.label = 3;
                 case 3:
-                    _d = true;
+                    _a = true;
                     return [3 /*break*/, 1];
                 case 4: return [3 /*break*/, 11];
                 case 5:
@@ -117,8 +118,8 @@ module.exports = function fibonacci(id, n) {
                     return [3 /*break*/, 11];
                 case 6:
                     _g.trys.push([6, , 9, 10]);
-                    if (!(!_d && !_a && (_b = _e.return))) return [3 /*break*/, 8];
-                    return [4 /*yield*/, _b.call(_e)];
+                    if (!(!_a && !_d && (_e = _b.return))) return [3 /*break*/, 8];
+                    return [4 /*yield*/, _e.call(_b)];
                 case 7:
                     _g.sent();
                     _g.label = 8;

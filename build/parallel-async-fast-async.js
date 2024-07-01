@@ -14,7 +14,7 @@
 
 const config = require('../lib/config.js');
 const fakes = require('../lib/fakes-async.js');
-module.exports = function parallel(stream, idOrPath) {
+module.exports = function parallel(_stream, _idOrPath) {
   return new Promise(function ($return, $error) {
     let queries, tx;
     queries = new Array(config.parallelQueries);
