@@ -1,11 +1,13 @@
+'use strict';
+
 const ts = require('typescript');
-const fsp = require('fs/promises');
+const fs = require('fs');
 const path = require('path');
 
-(async () => {
+(() => {
   const sourcePath = path.resolve(__dirname, process.argv.slice(2)[0]);
   const outputPath = path.resolve(__dirname, process.argv.slice(2)[1]);
-  const source = await fsp.readFile(sourcePath, 'utf-8');
+  const source = fs.readFileSync(sourcePath, 'utf-8');
 
   const result = ts.transpileModule(source, {
     compilerOptions: {
@@ -13,5 +15,5 @@ const path = require('path');
     }
   });
 
-  await fsp.writeFile(outputPath, result.outputText);
+  fs.writeFileSync(outputPath, result.outputText);
 })();

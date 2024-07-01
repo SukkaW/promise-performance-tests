@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-module.exports = fs
-  .readdirSync('benchmark')
+module.exports = fs.readdirSync('benchmark')
   .filter(filename => filename.endsWith('.js'))
   .map(filename => ({
     context: path.resolve('benchmark'),

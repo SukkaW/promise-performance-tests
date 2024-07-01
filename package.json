@@ -1,10 +1,11 @@
 {
   "name": "promise-performance-tests",
   "version": "0.0.1",
+  "private": true,
   "description": "Promise performance tests",
   "main": "run.js",
   "scripts": {
-    "lint": "eslint lib/*.js benchmark/*.js run.js webpack.config.js --fix",
+    "lint": "eslint . --format=sukka",
     "build:doxbee-async-tsc": "node tsc.js 'lib/doxbee-async.js' 'build/doxbee-async-tsc.js'",
     "build:doxbee-async-babel": "babel -o build/doxbee-async-babel.js --presets=@babel/preset-env lib/doxbee-async.js",
     "build:doxbee-async-fast-async": "babel -o build/doxbee-async-fast-async.js --plugins=module:fast-async lib/doxbee-async.js",
@@ -33,37 +34,39 @@
   },
   "license": "Apache License 2.0",
   "dependencies": {
-    "@sukka/listdir": "^0.2.0",
-    "bluebird": "^3.5.1",
-    "core-js-pure": "^3.32.1",
+    "@sukka/listdir": "^0.3.1",
+    "bluebird": "^3.7.2",
+    "core-js-pure": "^3.37.1",
     "es6-promise": "^4.2.8",
     "es6-promise-polyfill": "^1.2.0",
     "my-promise": "^1.1.0",
-    "patch-package": "^8.0.0",
     "promis": "^1.1.4",
     "promise": "^8.3.0",
     "promise-polyfill": "^8.3.0",
     "q": "^1.5.1",
+    "regenerator-runtime": "^0.14.1",
     "spromisemespeed": "^1.0.3",
-    "table": "^6.8.1",
+    "table": "^6.8.2",
     "zousan": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.22.10",
-    "@babel/core": "^7.22.11",
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
     "@babel/plugin-proposal-async-generator-functions": "^7.20.7",
-    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-env": "^7.24.7",
+    "@eslint-sukka/node": "^6.0.0",
     "babel-plugin-transform-async-to-promises": "^0.8.18",
-    "eslint": "^8.48.0",
-    "eslint-config-sukka": "^1.1.2",
+    "eslint": "^9.6.0",
+    "eslint-config-sukka": "^6.0.0",
+    "eslint-formatter-sukka": "^6.0.0",
     "eslint-plugin-node": "^11.1.0",
     "fast-async": "^7.0.6",
-    "regenerator-runtime": "^0.14.0",
-    "typescript": "^5.2.2",
-    "webpack": "^5.88.2",
+    "patch-package": "^8.0.0",
+    "typescript": "^5.5.2",
+    "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   }
 }

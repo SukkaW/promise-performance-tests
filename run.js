@@ -1,5 +1,7 @@
+'use strict';
+
 const cp = require('child_process');
-const listDir = require('@sukka/listdir');
+const fsp = require('fs/promises');
 const { table, getBorderCharacters } = require('table');
 
 const config = require('./lib/config.js');
@@ -15,7 +17,7 @@ const benchmarkFilter = (file) => {
     conditions.push(file.includes('doxbee-promises') || file.includes('parallel-promises'));
   }
   if (arg.includes('--async')) {
-    conditions.push(file.includes('async-'))
+    conditions.push(file.includes('async-'));
   }
 
   return conditions.every(Boolean);
@@ -25,9 +27,8 @@ const benchmarkFilter = (file) => {
   printPlatformInformation();
   printBenchmarkConfig();
 
-  const BENCHMARKS = (await listDir('benchmark'))
-    .filter(filename => filename.endsWith('.js'))
-    .filter(benchmarkFilter)
+  const BENCHMARKS = (await fsp.readdir('benchmark'))
+    .filter(filename => filename.endsWith('.js') && benchmarkFilter(filename))
     .sort();
 
   const results = [['Name', 'Time (ms)', 'Memory (MiB)']];

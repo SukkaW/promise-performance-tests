@@ -49,7 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var config = require('../lib/config.js');
 var fakes = require('../lib/fakes-async.js');
-module.exports = function parallel(stream, idOrPath) {
+module.exports = function parallel(_stream, _idOrPath) {
     return __awaiter(this, void 0, void 0, function () {
         var queries, tx, index, err_1;
         return __generator(this, function (_a) {
