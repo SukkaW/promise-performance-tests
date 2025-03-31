@@ -225,7 +225,7 @@ function fibonacciSequence() {
   return _fibonacciSequence.apply(this, arguments);
 }
 function _fibonacciSequence() {
-  _fibonacciSequence = _wrapAsyncGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+  _fibonacciSequence = _wrapAsyncGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var a, b, c;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {

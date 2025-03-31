@@ -21,8 +21,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -77,7 +77,10 @@ module.exports = function doxbee(stream, idOrPath) {
                 case 3:
                     _b.sent();
                     fileId = void 0;
-                    if (!!file) return [3 /*break*/, 6];
+                    if (!file) return [3 /*break*/, 4];
+                    fileId = file.id;
+                    return [3 /*break*/, 7];
+                case 4:
                     splitPath = idOrPath.split('/');
                     fileName = splitPath[splitPath.length - 1];
                     fileId = fakes.uuid.v1();
@@ -87,14 +90,11 @@ module.exports = function doxbee(stream, idOrPath) {
                             name: fileName,
                             version: version.id
                         })];
-                case 4:
+                case 5:
                     q = _b.sent();
                     return [4 /*yield*/, q.execWithin(tx)];
-                case 5:
-                    _b.sent();
-                    return [3 /*break*/, 7];
                 case 6:
-                    fileId = file.id;
+                    _b.sent();
                     _b.label = 7;
                 case 7: return [4 /*yield*/, fakes.FileVersion.insert({
                         fileId: fileId,

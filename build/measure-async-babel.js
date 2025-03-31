@@ -22,7 +22,7 @@ var _require = require('../lib/driver.js'),
   driver = _require.driver;
 var config = require('../lib/config.js');
 module.exports = /*#__PURE__*/function () {
-  var _measure = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(fn) {
+  var _measure = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(fn) {
     var _len,
       args,
       _key,

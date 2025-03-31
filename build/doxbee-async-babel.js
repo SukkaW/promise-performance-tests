@@ -26,7 +26,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 var fakes = require('../lib/fakes-async.js');
 module.exports = /*#__PURE__*/function () {
-  var _doxbee = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(stream, idOrPath) {
+  var _doxbee = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(stream, idOrPath) {
     var blob, tx, blobPromise, filePromise, _yield$Promise$all, _yield$Promise$all2, blobId, file, previousId, version, fileId, splitPath, fileName, q;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
@@ -55,29 +55,28 @@ module.exports = /*#__PURE__*/function () {
           _context.next = 16;
           return fakes.Version.insert(version).execWithin(tx);
         case 16:
-          if (file) {
-            _context.next = 27;
+          if (!file) {
+            _context.next = 20;
             break;
           }
+          fileId = file.id;
+          _context.next = 28;
+          break;
+        case 20:
           splitPath = idOrPath.split('/');
           fileName = splitPath[splitPath.length - 1];
           fileId = fakes.uuid.v1();
-          _context.next = 22;
+          _context.next = 25;
           return fakes.self.createQuery(idOrPath, {
             id: fileId,
             userAccountId: fakes.userAccount.id,
             name: fileName,
             version: version.id
           });
-        case 22:
-          q = _context.sent;
-          _context.next = 25;
-          return q.execWithin(tx);
         case 25:
+          q = _context.sent;
           _context.next = 28;
-          break;
-        case 27:
-          fileId = file.id;
+          return q.execWithin(tx);
         case 28:
           _context.next = 30;
           return fakes.FileVersion.insert({

@@ -28,7 +28,7 @@ function fibonacciSequence() {
   return _fibonacciSequence.apply(this, arguments);
 }
 function _fibonacciSequence() {
-  _fibonacciSequence = _wrapAsyncGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+  _fibonacciSequence = _wrapAsyncGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
     var a, b, c;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
@@ -53,7 +53,7 @@ function _fibonacciSequence() {
   return _fibonacciSequence.apply(this, arguments);
 }
 module.exports = /*#__PURE__*/function () {
-  var _fibonacci = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id, n) {
+  var _fibonacci = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id, n) {
     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, value;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {

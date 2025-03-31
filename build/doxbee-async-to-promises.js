@@ -66,7 +66,9 @@ module.exports = function doxbee(stream, idOrPath) {
         return _await(fakes.Version.insert(version).execWithin(tx), function () {
           let fileId;
           return _invoke(function () {
-            if (!file) {
+            if (file) {
+              fileId = file.id;
+            } else {
               const splitPath = idOrPath.split('/');
               const fileName = splitPath[splitPath.length - 1];
               fileId = fakes.uuid.v1();
@@ -78,8 +80,6 @@ module.exports = function doxbee(stream, idOrPath) {
               }), function (q) {
                 return _awaitIgnored(q.execWithin(tx));
               });
-            } else {
-              fileId = file.id;
             }
           }, function () {
             return _await(fakes.FileVersion.insert({

@@ -21,6 +21,7 @@ const webpack = require('webpack');
 module.exports = fs.readdirSync('benchmark').reduce((acc, filename) => {
   if (filename.endsWith('.js')) {
     acc.push({
+      target: 'node',
       context: path.resolve('benchmark'),
       entry: `./${filename}`,
       output: {

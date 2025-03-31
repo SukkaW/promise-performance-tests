@@ -56,7 +56,10 @@ module.exports = function doxbee(stream, idOrPath) {
           version.id = fakes.Version.createHash(version);
           return Promise.resolve(fakes.Version.insert(version).execWithin(tx)).then(function ($await_5) {
             try {
-              if (!file) {
+              if (file) {
+                fileId = file.id;
+                return $If_2.call(this);
+              } else {
                 let splitPath, fileName, q;
                 splitPath = idOrPath.split('/');
                 fileName = splitPath[splitPath.length - 1];
@@ -80,9 +83,6 @@ module.exports = function doxbee(stream, idOrPath) {
                     return $Try_1_Catch($boundEx);
                   }
                 }.bind(this), $Try_1_Catch);
-              } else {
-                fileId = file.id;
-                return $If_2.call(this);
               }
               function $If_2() {
                 return Promise.resolve(fakes.FileVersion.insert({

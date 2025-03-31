@@ -21,7 +21,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 var config = require('../lib/config.js');
 var fakes = require('../lib/fakes-async.js');
 module.exports = /*#__PURE__*/function () {
-  var _parallel = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(_stream, _idOrPath) {
+  var _parallel = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee(_stream, _idOrPath) {
     var queries, tx, index;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
