@@ -14,37 +14,40 @@
 
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const webpack = require('webpack');
 
-module.exports = fs.readdirSync('benchmark')
-  .filter(filename => filename.endsWith('.js'))
-  .map(filename => ({
-    context: path.resolve('benchmark'),
-    entry: `./${filename}`,
-    output: {
-      filename,
-      path: path.resolve('dist')
-    },
-    optimization: {
-      minimize: false
-    },
-    plugins: [
-      new webpack.BannerPlugin({
-        banner:
-          '// Required for JavaScript engine shells.\n'
-          + 'if (typeof console === \'undefined\') {\n'
-          + '  console = {log: print};\n'
-          + '}',
-        raw: true
-      })
-    ],
-    resolve: {
-      fallback: {
-        path: false,
-        perf_hooks: false
-      }
-    },
-    mode: 'production'
-  }));
+module.exports = fs.readdirSync('benchmark').reduce((acc, filename) => {
+  if (filename.endsWith('.js')) {
+    acc.push({
+      context: path.resolve('benchmark'),
+      entry: `./${filename}`,
+      output: {
+        filename,
+        path: path.resolve('dist')
+      },
+      optimization: {
+        minimize: false
+      },
+      plugins: [
+        new webpack.BannerPlugin({
+          banner:
+              '// Required for JavaScript engine shells.\n'
+              + 'if (typeof console === \'undefined\') {\n'
+              + '  console = {log: print};\n'
+              + '}',
+          raw: true
+        })
+      ],
+      resolve: {
+        fallback: {
+          path: false,
+          perf_hooks: false
+        }
+      },
+      mode: 'production'
+    });
+  }
+  return acc;
+}, []);

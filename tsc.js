@@ -1,8 +1,9 @@
 'use strict';
 
 const ts = require('typescript');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
+const process = require('node:process');
 
 (() => {
   const sourcePath = path.resolve(__dirname, process.argv.slice(2)[0]);

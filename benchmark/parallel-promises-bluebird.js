@@ -21,4 +21,4 @@ measure(parallel, 'b', 'c')
   .then(({ time, mem }) => {
     console.log(JSON.stringify({ time, mem }));
   })
-  .catch(reason => console.error(reason));
+  .catch(error => console.error(error));

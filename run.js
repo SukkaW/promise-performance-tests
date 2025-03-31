@@ -1,14 +1,15 @@
 'use strict';
 
-const cp = require('child_process');
-const fsp = require('fs/promises');
+const cp = require('node:child_process');
+const fsp = require('node:fs/promises');
 const { table, getBorderCharacters } = require('table');
+const process = require('node:process');
 
 const config = require('./lib/config.js');
 
 const arg = process.argv.slice(2).join(' ');
 
-const benchmarkFilter = (file) => {
+function benchmarkFilter(file) {
   const conditions = [];
   if (arg.includes('--native-vs-bluebird')) {
     conditions.push(file.includes('promises-bluebird') || file.includes('async-es2017-native') || file.includes('promises-es2015-native'));
@@ -21,7 +22,7 @@ const benchmarkFilter = (file) => {
   }
 
   return conditions.every(Boolean);
-};
+}
 
 (async () => {
   printPlatformInformation();
@@ -68,16 +69,14 @@ const benchmarkFilter = (file) => {
 function printPlatformInformation() {
   console.log('Platform info:');
 
-  const os = require('os');
+  const os = require('node:os');
   const { node, v8 } = process.versions;
   const plat = `OS: ${os.type()} ${os.release()} ${os.arch()}\nNode.js: ${node}\nV8: ${v8}`;
-  const cpus = os.cpus().map(cpu => cpu.model).reduce((o, model) => {
-    o[model] = (o[model] || 0) + 1;
+  const cpus = os.cpus().reduce((o, cpu) => {
+    o[cpu.model] = (o[cpu.model] || 0) + 1;
     return o;
   }, {});
-  const cpusInfo = Object.keys(cpus).map((key) => {
-    return `${key} x ${cpus[key]}`;
-  }).join('\n');
+  const cpusInfo = Object.keys(cpus).map((key) => `${key} x ${cpus[key]}`).join('\n');
 
   console.log(`${plat}\nCPU: ${cpusInfo}\nMemory: ${os.totalmem() / (1024 * 1024)} MiB\n`);
 }
