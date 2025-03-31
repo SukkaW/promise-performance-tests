@@ -5,7 +5,7 @@ module.exports = require('eslint-config-sukka').sukka(
     ignores: {
       customGlobs: [
         'dist/**/*',
-        'build**/*'
+        'build/**/*'
       ]
     }
   },

@@ -36,7 +36,7 @@
   "dependencies": {
     "@sukka/listdir": "^0.3.1",
     "bluebird": "^3.7.2",
-    "core-js-pure": "^3.37.1",
+    "core-js-pure": "^3.41.0",
     "es6-promise": "^4.2.8",
     "es6-promise-polyfill": "^1.2.0",
     "my-promise": "^1.1.0",
@@ -46,27 +46,27 @@
     "q": "^1.5.1",
     "regenerator-runtime": "^0.14.1",
     "spromisemespeed": "^1.0.3",
-    "table": "^6.8.2",
+    "table": "^6.9.0",
     "zousan": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.7",
-    "@babel/core": "^7.24.7",
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
     "@babel/plugin-proposal-async-generator-functions": "^7.20.7",
-    "@babel/preset-env": "^7.24.7",
-    "@eslint-sukka/node": "^6.0.0",
+    "@babel/preset-env": "^7.26.9",
+    "@eslint-sukka/node": "^6.18.0",
     "babel-plugin-transform-async-to-promises": "^0.8.18",
-    "eslint": "^9.6.0",
-    "eslint-config-sukka": "^6.0.0",
-    "eslint-formatter-sukka": "^6.0.0",
+    "eslint": "^9.23.0",
+    "eslint-config-sukka": "^6.18.0",
+    "eslint-formatter-sukka": "^6.18.0",
     "eslint-plugin-node": "^11.1.0",
     "fast-async": "^7.0.6",
     "patch-package": "^8.0.0",
-    "typescript": "^5.5.2",
-    "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4"
+    "typescript": "^5.8.2",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1"
   },
-  "packageManager": "pnpm@10.7.0+sha512.6b865ad4b62a1d9842b61d674a393903b871d9244954f652b8842c2b553c72176b278f64c463e52d40fff8aba385c235c8c9ecf5cc7de4fd78b8bb6d49633ab6",
+  "packageManager": "pnpm@10.7.0",
   "engines": {
     "node": ">=16"
   }
