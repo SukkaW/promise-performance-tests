@@ -22,8 +22,8 @@
     "build:parallel-async-babel": "babel -o build/parallel-async-babel.js --presets=@babel/preset-env lib/parallel-async.js",
     "build:parallel-async-fast-async": "babel -o build/parallel-async-fast-async.js --plugins=module:fast-async lib/parallel-async.js",
     "build:parallel-async-to-promises": "babel -o build/parallel-async-to-promises.js --plugins=module:babel-plugin-transform-async-to-promises lib/parallel-async.js",
-    "build": "npm run build:doxbee-async-tsc && npm run build:doxbee-async-babel && npm run build:doxbee-async-fast-async && npm run build:doxbee-async-to-promises && npm run build:fibonacci-async-tsc && npm run build:fibonacci-async-to-promises && npm run build:fibonacci-async-babel && npm run build:fibonacci-async-fast-async && npm run build:measure-async-tsc && npm run build:measure-async-babel && npm run build:measure-async-fast-async && npm run build:measure-async-to-promises && npm run build:parallel-async-tsc && npm run build:parallel-async-babel && npm run build:parallel-async-fast-async && npm run build:parallel-async-to-promises && webpack",
-    "postinstall": "patch-package && npm run build",
+    "build": "pnpm run build:doxbee-async-tsc && pnpm run build:doxbee-async-babel && pnpm run build:doxbee-async-fast-async && pnpm run build:doxbee-async-to-promises && pnpm run build:fibonacci-async-tsc && pnpm run build:fibonacci-async-to-promises && pnpm run build:fibonacci-async-babel && pnpm run build:fibonacci-async-fast-async && pnpm run build:measure-async-tsc && pnpm run build:measure-async-babel && pnpm run build:measure-async-fast-async && pnpm run build:measure-async-to-promises && pnpm run build:parallel-async-tsc && pnpm run build:parallel-async-babel && pnpm run build:parallel-async-fast-async && pnpm run build:parallel-async-to-promises && webpack",
+    "postinstall": "pnpm run build",
     "start": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -62,7 +62,6 @@
     "eslint-formatter-sukka": "^7.1.1",
     "eslint-plugin-node": "^11.1.0",
     "fast-async": "^7.0.6",
-    "patch-package": "^8.0.0",
     "typescript": "^5.9.2",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1"
@@ -78,6 +77,9 @@
     "onlyBuiltDependencies": [
       "nodent-runtime",
       "oxc-resolver"
-    ]
+    ],
+    "patchedDependencies": {
+      "spromisemespeed": "patches/spromisemespeed.patch"
+    }
   }
 }
